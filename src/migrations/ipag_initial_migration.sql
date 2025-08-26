@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS public.customers
 (
     cust_id uuid NOT NULL DEFAULT gen_random_uuid(),
     cust_name character varying(255) NOT NULL,
-    cust_document character varying(20) NOT NULL,
+    cust_document character varying(20),
     cust_email character varying(255) NOT NULL,
     cust_phone character varying(20),
     cust_created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
