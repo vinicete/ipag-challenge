@@ -7,6 +7,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 const customersRoutes = require('./routes/customerRoutes')
+const productsRoutes = require('./routes/productRoutes')
 
 
 app.get('/', (req, res)=>{
@@ -15,6 +16,7 @@ app.get('/', (req, res)=>{
 
 
 app.use('/customers',customersRoutes)
+app.use('/products',productsRoutes)
 
 
 module.exports = app
