@@ -16,7 +16,7 @@ class OrderController{
       return res.status(201).json(order)
     }
     catch(error){
-      return res.status(500).json(error)
+      return res.status(500).json({message: error.message})
     }
   }
 
@@ -32,7 +32,7 @@ class OrderController{
       return res.status(201).json(order)
     }
     catch(error){
-      return res.status(500).json(error)
+      return res.status(500).json({message: error.message})
     }
   }
 
@@ -52,7 +52,7 @@ class OrderController{
     }
     catch(error){
       console.error(error)
-      return res.status(500).json(error)
+      return res.status(500).json({message: error.message})
     }
 
   }

@@ -16,7 +16,7 @@ class CustomerController{
       return res.status(201).json(customer)
     }
     catch(error){
-      return res.status(500).json(error)
+      return res.status(500).json({message: error.message})
     }
   }
 
@@ -34,7 +34,7 @@ class CustomerController{
       return res.status(201).json(customer)
     }
     catch(error){
-      return res.status(500).json(error)
+      return res.status(500).json({message: error.message})
     }
   }
 }
