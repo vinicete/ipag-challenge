@@ -48,6 +48,16 @@ class OrderRepository{
     
     return ordRes.rows[0]
   }
+
+  static async updateStatus(orderData){
+
+    const { id, ord_status, updatedAt } = orderData
+    const res = await db.query(`UPDATE public.orders
+                                SET ord_status= $1, ord_updated_at= $2
+                                WHERE ord_id = $3;`,[ord_status, updatedAt, id])
+
+    return res.rows[0]
+  }
 }
 
 

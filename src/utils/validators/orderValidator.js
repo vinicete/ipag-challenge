@@ -11,13 +11,19 @@ const createOrderSchema = z.object({
 
 })
 
-const getOrderSchema = z.object({
+const getIdOrderSchema = z.object({
   id: uuid()
+})
+
+const updateStatusOrderSchema = z.object({
+  ord_status: string(),
+  notes: string()
 })
 
 
 module.exports ={
   createOrderSchema,
-  getOrderSchema,
-  orderItemSchema
+  getIdOrderSchema,
+  orderItemSchema,
+  updateStatusOrderSchema
 }

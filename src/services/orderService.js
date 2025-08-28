@@ -1,4 +1,5 @@
 const OrderRepository = require("../repositories/orderRepository")
+const orderStatusEnum = require("../utils/enums/OrderStatusEnum")
 const ProductService = require('./productService')
 const {v4: uuid } = require('uuid')
 
@@ -73,6 +74,55 @@ class OrderService{
       throw error
     }
     
+  }
+
+  static async updateStatus(orderData,id){
+
+    const { ord_status, notes} = orderData
+    const updatedAt = new Date()
+
+    const order = await this.getById(id)
+
+    if(!order){
+      console.log("ord_status -> "+ ord_status + "notes -> "+notes)
+      throw new Error("Pedido não encontrado para update!")
+    }
+
+    //fazer a comparacao com todos os status, enum talvez
+
+    let newStatus = orderStatusEnum[ord_status]
+    let oldStatus = orderStatusEnum[order.ord_status] 
+
+    console.log("" + oldStatus + newStatus)
+
+    if (!orderStatusEnum.hasOwnProperty(ord_status)) {
+        throw new Error(`Status '${ord_status}' é inválido.`);
+    }
+
+
+    if(newStatus === orderStatusEnum.CANCELED){
+      if(oldStatus>= orderStatusEnum.SHIPPED){
+        throw new Error("Não é possível cancelar pedidos já enviados!")
+      }
+    }
+
+    if (oldStatus === orderStatusEnum.DELIVERED) {
+        throw new Error("Pedidos já entregues não podem ter seu status alterado.");
+    }
+
+    if (newStatus !== oldStatus + 1) {
+      throw new Error(`Ordem de transação ${oldStatus} para ${newStatus} inválida! Transações devem ser sequenciais.`);
+    }
+
+    const statusOrderData = {id, ord_status, updatedAt}
+
+    try{
+      return await OrderRepository.updateStatus(statusOrderData)
+    }
+    catch(error){
+      console.log(error)
+      throw error
+    }
   }
 }
 
