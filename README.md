@@ -274,9 +274,9 @@ Fiz a primeira migration, configurei a database e pronto.
 
 ## Desenvolvimento
 
-Para começar, pensei na estrutura de pastas e segui um MVC destrinchando a camada de model em repositories e services para melhor separação de responsabilidades, como não é um projeto grande creio que será o suficiente.
+Para começar, pensei na estrutura de pastas e segui um MVC destrinchando a camada de model em repositories e services para melhor separação de responsabilidades, como não é um projeto grande creio que será o suficiente. Estrutura final:
 
-Estrutura final:
+
 ![Estrutura do projeto](./docs/images/structure.png)
 
 Comecei a desenvolver o endpoint de customers e nesse momento decidi utilizar uma biblioteca para ajudar na validação dos dados, então instalei o zod que ja faz diversas modificações automaticamente.
