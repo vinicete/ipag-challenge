@@ -76,7 +76,7 @@ class OrderService{
     
   }
 
-  static async updateStatus(orderData,id){
+  static async updateStatus(orderData,id, rabbitmqServer){
 
     const { ord_status, notes} = orderData
     const updatedAt = new Date()
@@ -116,11 +116,15 @@ class OrderService{
 
     const statusOrderData = {id, ord_status, updatedAt}
 
+    
+
     try{
-      return await OrderRepository.updateStatus(statusOrderData)
+      const res = await OrderRepository.updateStatus(statusOrderData)
+      rabbitmqServer.publish('ipag',notes)
+      return res
     }
     catch(error){
-      console.log(error)
+      console.log(error.message)
       throw error
     }
   }

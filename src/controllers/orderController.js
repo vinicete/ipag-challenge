@@ -41,13 +41,15 @@ class OrderController{
     const orderId = getIdOrderSchema.safeParse(req.params)
     const orderData = updateStatusOrderSchema.safeParse(req.body)
 
+    const rabbitmqServer = req.app.get('rabbitmqServer')
+
     if(!orderData.success || !orderId.success){
       console.error("Erro ao enviar dados para update!")
       return res.status(400).json(orderData.error.issues)
     }
 
     try{
-      const order = await OrderService.updateStatus(orderData.data, orderId.data.id)
+      const order = await OrderService.updateStatus(orderData.data, orderId.data.id, rabbitmqServer)
       return res.status(201).json(order)
     }
     catch(error){
