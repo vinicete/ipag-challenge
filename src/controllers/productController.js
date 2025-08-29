@@ -30,7 +30,7 @@ class ProductController{
 
     try{
       const prod = await ProductService.getById(productData.data.id)
-      return res.status(201).json(prod)
+      return res.status(200).json(prod)
     }
     catch(error){
       return res.status(500).json({message: error.message})

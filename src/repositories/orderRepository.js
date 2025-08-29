@@ -15,7 +15,8 @@ class OrderRepository{
 
     const res = await db.query(`INSERT INTO public.orders(
                             ord_id, cust_id, ord_total_value, ord_status, ord_created_at, ord_updated_at)
-                            VALUES ($1, $2, $3, $4, $5, $6);`,[id,cust_id,totalValue,ordStatus,createdAt,updatedAt])
+                            VALUES ($1, $2, $3, $4, $5, $6)
+                            RETURNING *;`,[id,cust_id,totalValue,ordStatus,createdAt,updatedAt])
 
     try{
       let items = await Promise.all(

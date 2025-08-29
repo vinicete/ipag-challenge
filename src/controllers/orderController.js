@@ -29,7 +29,7 @@ class OrderController{
 
     try{
       const order = await OrderService.getById(orderData.data.id)
-      return res.status(201).json(order)
+      return res.status(200).json(order)
     }
     catch(error){
       return res.status(500).json({message: error.message})
@@ -44,13 +44,13 @@ class OrderController{
     const rabbitmqServer = req.app.get('rabbitmqServer')
 
     if(!orderData.success || !orderId.success){
-      console.error("Erro ao enviar dados para update!")
+      console.error("Error sending data to update!")
       return res.status(400).json(orderData.error.issues)
     }
 
     try{
       const order = await OrderService.updateStatus(orderData.data, orderId.data.id, rabbitmqServer)
-      return res.status(201).json(order)
+      return res.status(200).json(order)
     }
     catch(error){
       console.error(error)

@@ -8,7 +8,8 @@ class ProductRepository{
 
     const res = await db.query(`INSERT INTO public.product(
                                 prod_id, prod_name, prod_description, prod_value)
-                                VALUES ($1, $2, $3, $4);`,[id, name, description, value])
+                                VALUES ($1, $2, $3, $4)
+                                RETURNING *;`,[id, name, description, value])
 
       return res.rows[0]
   }

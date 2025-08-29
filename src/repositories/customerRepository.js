@@ -9,7 +9,8 @@ class CustomerRepository{
     
     const res = await db.query(`INSERT INTO public.customers(
                                 cust_id, cust_name, cust_document, cust_email, cust_phone, cust_created_at)
-                                VALUES ($1, $2, $3, $4, $5, $6);`,[id,name,document,email,phone,createdAt])
+                                VALUES ($1, $2, $3, $4, $5, $6)
+                                RETURNING *;`,[id,name,document,email,phone,createdAt])
       return res.rows[0]
   }
 

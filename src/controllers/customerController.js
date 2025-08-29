@@ -31,7 +31,7 @@ class CustomerController{
 
     try{
       const customer = await CustomerService.getById(customerData.data.id)
-      return res.status(201).json(customer)
+      return res.status(200).json(customer)
     }
     catch(error){
       return res.status(500).json({message: error.message})
