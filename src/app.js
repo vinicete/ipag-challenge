@@ -12,7 +12,7 @@ const ordersRoutes = require('./routes/orderRoutes')
 
 
 app.get('/', (req, res)=>{
-  res.send('ooooi')
+  res.send('Olá devs da ipag :)')
 })
 
 

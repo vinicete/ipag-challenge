@@ -43,7 +43,7 @@ class OrderRepository{
 	                              FROM public.orders
                                 WHERE ord_id = $1`,[id])
     if(!ordRes){
-      throw new Error("Order não encontrada")
+      throw new Error("Order not found")
     }
     
     return ordRes.rows[0]

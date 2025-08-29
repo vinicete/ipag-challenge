@@ -22,7 +22,7 @@ class OrderService{
         let prod = await ProductService.getById(item.prod_id)
 
         if (!prod) {
-          throw new Error(`Produto não encontrado`);
+          throw new Error(`Product not found`);
         }
 
         return {
@@ -49,10 +49,6 @@ class OrderService{
       updatedAt,
       orderItems
     }
-
-    console.log("ORDER ID: "+ order.id +
-      "\nCUST_ID: " +cust_id + "\nTotalValue: " + totalValue
-    )
 
     try{
       return await OrderRepository.create(order)
@@ -84,8 +80,7 @@ class OrderService{
     const order = await this.getById(id)
 
     if(!order){
-      console.log("ord_status -> "+ ord_status + "notes -> "+notes)
-      throw new Error("Pedido não encontrado para update!")
+      throw new Error("Order not found for update!")
     }
 
     //fazer a comparacao com todos os status, enum talvez
@@ -93,25 +88,24 @@ class OrderService{
     let newStatus = orderStatusEnum[ord_status]
     let oldStatus = orderStatusEnum[order.ord_status] 
 
-    console.log("" + oldStatus + newStatus)
 
     if (!orderStatusEnum.hasOwnProperty(ord_status)) {
-        throw new Error(`Status '${ord_status}' é inválido.`);
+        throw new Error(`Status '${ord_status}' is invalid.`);
     }
 
 
     if(newStatus === orderStatusEnum.CANCELED){
       if(oldStatus>= orderStatusEnum.SHIPPED){
-        throw new Error("Não é possível cancelar pedidos já enviados!")
+        throw new Error("Is not possible to cancel delivered orders!")
       }
     }
 
     if (oldStatus === orderStatusEnum.DELIVERED) {
-        throw new Error("Pedidos já entregues não podem ter seu status alterado.");
+        throw new Error("Delivered orders cannot have its status changed!");
     }
 
     if (newStatus !== oldStatus + 1) {
-      throw new Error(`Ordem de transação ${oldStatus} para ${newStatus} inválida! Transações devem ser sequenciais.`);
+      throw new Error(`Transaction order ${oldStatus} to ${newStatus} is invalid! Transactions must be in sequence.`);
     }
 
     const statusOrderData = {id, ord_status, updatedAt}
