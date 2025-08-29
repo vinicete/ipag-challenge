@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: pg_db_ipag
+
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres123
+      - POSTGRES_DB=ipag
+    ports: 
+      - "5432:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+      
+    restart: always
+  rabbitmq:
+    
+    image: rabbitmq:3.13.7-management
+    container_name: rabbitmq_ipag
+    ports:
+      - "5672:5672"  
+      - "15672:15672" 
+    environment:
+      - RABBITMQ_DEFAULT_USER=vini
+      - RABBITMQ_DEFAULT_PASS=123456
+  
+  app:
+    build: . 
+    container_name: api_ipag
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app 
+    command: npm run dev
+    depends_on:
+      - db
+      - rabbitmq 
+    environment:
+      - DB_HOST=db
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres123
+      - DB_NAME=ipag
+      - DB_PORT=5432
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_USER=vini
+      - RABBITMQ_PASSWORD=123456
+    restart: always
+
+volumes:
+  postgres-data:
